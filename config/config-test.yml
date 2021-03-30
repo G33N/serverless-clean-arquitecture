@@ -1,0 +1,25 @@
+environment:
+  DB_NAME: 'wink'
+  DB_USER: 'wink'
+  DB_PASSWORD: 'VSkNBvMD7PAcz8NR'
+  DB_HOST: 'db.holawink.com'
+  DB_DIALECT: 'mysql'
+  DYNAMODB_TABLE_NAME: 'microservice-onboarding-status-${self:custom.stage}'
+  SQS_QUEUE_URL: 'https://sqs.us-east-1.amazonaws.com/208583943317/microservice-account-job'
+
+  STAGE: ${opt:stage, self:provider.stage}
+  REGION: ${opt:region, self:provider.region}
+
+  #Lambdas
+  ACCOUNT_LAMBDA: account-${self:custom.stage}-account
+
+vpc:
+  securityGroupIds:
+    - sg-4788e138
+  subnetIds:
+    - subnet-e04a39dc
+    - subnet-f64586be
+    - subnet-c18090ec
+
+pushClientNotificationEvents:
+  - sqs: arn:aws:sqs:us-east-1:208583943317:microservice-account-job

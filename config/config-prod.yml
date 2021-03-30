@@ -1,0 +1,30 @@
+environment:
+  DB_NAME: 'omnimoni'
+  DB_USER: 'admin'
+  DB_PASSWORD: 'rq6H%Mcey`^)H+2oWXeB{V'
+  DB_HOST: 'prod-mysql-v1.cphh6upl16cf.us-east-1.rds.amazonaws.com'
+  DB_DIALECT: 'mysql'
+  DYNAMODB_TABLE_NAME: 'microservice-onboarding-status-${self:custom.stage}'
+  SQS_QUEUE_URL: 'https://sqs.us-east-1.amazonaws.com/978794516287/microservice-account-job'
+
+  STAGE: ${opt:stage, self:provider.stage}
+  REGION: ${opt:region, self:provider.region}
+
+  #Lambdas
+  ACCOUNT_LAMBDA: account-${self:custom.stage}-account
+
+vpc:
+  securityGroupIds:
+    - sg-00ce4c7d947670ab4 # Default
+    - sg-09f2ba7dca78c1da2 # PROD-MySQL-SecurityGroup-I18NUO4IS34Q
+    - sg-0a951da2fd388294d # PROD-Lambda-preRegister
+  subnetIds:
+    - subnet-0f2b4c93d63b18f8b # OmniMoni-PROD-PRIVATEA-NET
+    - subnet-09f0390ab224d7046 # OmniMoni-PROD-PRIVATEB-NET
+    - subnet-0b1eb9718c7cd0419 # OmniMoni-PROD-PRIVATEC-NET
+    - subnet-043ea4388778d739c # OmniMoni-PROD-PRIVATED-NET
+    - subnet-01b6bf3e55fd05ae1 # OmniMoni-PROD-PRIVATEE-NET
+    - subnet-0ebb1e3ada542c176 # OmniMoni-PROD-PRIVATEF-NET
+
+pushClientNotificationEvents:
+  - sqs: arn:aws:sqs:us-east-1:978794516287:microservice-account-job

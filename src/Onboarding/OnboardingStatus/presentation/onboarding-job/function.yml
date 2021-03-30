@@ -1,0 +1,8 @@
+handler: src/Onboarding/OnboardingStatus/presentation/onboarding-job/handler.main
+timeout: 900
+memorySize: 3008
+events:
+  - schedule:
+      rate: cron(30 10 * * ? *) # runs every day at 10:30
+      enabled: true
+      name: daily-onboarding-status-job

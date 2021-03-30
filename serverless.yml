@@ -1,0 +1,46 @@
+service: account-notification-job
+
+package:
+  individually: true
+  exclude:
+    - aws-sdk
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-offline-scheduler
+  - serverless-dynamodb-local
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  prefix: ${self:custom.stage}-account-notification-job
+  dynamodb:
+    stages:
+      - stg
+      - prod
+  # snsMonthlyAccount: ${self:custom.stage}-daily-account-notification-topic
+  webpackIncludeModules:
+    forceExclude:
+      - aws-sdk
+    forceInclude:
+      - request
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: stg
+  region: us-east-1
+  versionFunctions: false
+  environment: ${file(config/config-${self:custom.stage}.yml):environment}
+  vpc: ${file(config/config-${self:custom.stage}.yml):vpc}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - '*'
+          Resource: '*'
+functions:
+  onboarding-status-job: ${file(src/Onboarding/OnboardingStatus/presentation/onboarding-job/function.yml)}
+  create-onboarding-status: ${file(src/Onboarding/OnboardingStatus/presentation/create-onboarding-status/function.yml)}

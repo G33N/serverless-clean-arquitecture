@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@onboarding/*": ["src/Onboarding/*"],
+        "@shared/*": ["src/Shared/*"],
+        "@tests/*": ["tests/*"]
+      }
+  }
+}
+  

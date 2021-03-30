@@ -1,0 +1,26 @@
+environment:
+  DB_NAME: 'wink'
+  DB_USER: 'dba'
+  DB_PASSWORD: ']mMWl`*A{4OYJ4-O'
+  DB_HOST: 'stg-rdsx.cybtfuraf9hc.us-east-1.rds.amazonaws.com'
+  DB_DIALECT: 'mysql'
+  DYNAMODB_TABLE_NAME: 'microservice-onboarding-status-${self:custom.stage}'
+  SQS_QUEUE_URL: 'https://sqs.us-east-1.amazonaws.com/208583943317/microservice-account-job'
+
+  STAGE: ${opt:stage, self:provider.stage}
+  REGION: ${opt:region, self:provider.region}
+
+  #Lambdas
+  ACCOUNT_LAMBDA: account-${self:custom.stage}-account
+
+vpc:
+  securityGroupIds:
+    - sg-0ba260258c071e5de # OmniMoni-DEV-VPC-SG
+    - sg-03a29ff002c1b0866 # DEV-RDS
+  subnetIds:
+    - subnet-0d79e940a50235dcc # OmniMoni-DEV-PRIVATEA-NET
+    - subnet-012b2556d6b29487d # OmniMoni-DEV-PRIVATEB-NET
+    - subnet-0e21aa87fe8230e6d # OmniMoni-DEV-PRIVATEC-NET
+
+pushClientNotificationEvents:
+  - sqs: arn:aws:sqs:us-east-1:208583943317:microservice-account-job

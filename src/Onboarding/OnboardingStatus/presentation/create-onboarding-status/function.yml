@@ -1,0 +1,10 @@
+handler: src/Onboarding/OnboardingStatus/presentation/create-onboarding-status/handler.main
+timeout: 900
+memorySize: 3008
+events:
+  - http:
+    method: post,
+    path: create-onboarding-status,
+    request:
+      - schema:
+        'application/json': schema
